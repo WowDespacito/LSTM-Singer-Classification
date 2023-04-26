@@ -1,22 +1,27 @@
-import time
-import torch
+import matplotlib.pyplot as plt
 
-# 测试gpu计算耗时
-A = torch.ones(5000, 5000).to('cuda')
-B = torch.ones(5000, 5000).to('cuda')
-print(type(A))
-startTime2 = time.time()
-for i in range(1):
-    C = torch.matmul(A, B)
-endTime2 = time.time()
-print('gpu计算总时长:', round((endTime2 - startTime2) * 1000, 2), 'ms')
+Epoch_list = [1, 2, 3]
+tra_loss_list = [1,1,1]
+epoch_list = [1, 2, 3]
+val_loss_list = [2,2,2]
+val_accuracy_list=[3,3,3]
+tra_accuracy_list=[4,4,4]
 
-# 测试cpu计算耗时
-A = torch.ones(5000, 5000)
-B = torch.ones(5000, 5000)
-print(type(A))
-startTime1 = time.time()
-for i in range(1):
-    C = torch.matmul(A, B)
-endTime1 = time.time()
-print('cpu计算总时长:', round((endTime1 - startTime1) * 1000, 2), 'ms')
+
+fig, ax = plt.subplots(1, 2)
+ax1 = ax[0]
+ax2 = ax[1]
+ax1.plot(Epoch_list, tra_loss_list, label='train')
+ax1.plot(epoch_list, val_loss_list, label='val')
+ax1.set_xlabel("epochs")
+ax1.set_ylabel("Loss")
+ax1.set_title("bidLSTM: Loss")
+# visualization accuracy
+ax2.plot(epoch_list, val_accuracy_list, label='train')
+ax2.plot(Epoch_list, tra_accuracy_list, label='val')
+ax2.set_xlabel("epochs")
+ax2.set_ylabel("Accuracy")
+ax2.set_title("bidLSTM: Accuracy")
+plt.legend()
+plt.tight_layout()
+plt.show()

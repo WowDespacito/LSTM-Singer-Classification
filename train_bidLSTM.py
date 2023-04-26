@@ -52,7 +52,7 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 100  # num of training examples per minibatch
-    num_epochs = 2000
+    num_epochs = 1000
 
     # Define model
     print("Build LSTM RNN model ...")
@@ -178,39 +178,25 @@ def main():
             val_loss_list.append(val_running_loss / num_dev_batches)
 
     # visualization loss
-    plt.plot(Epoch_list, tra_loss_list)
-    plt.xlabel("# of epochs")
-    plt.ylabel("Loss")
-    plt.title("bidLSTM: Loss vs # epochs on train")
-    # plt.show()
-    plt.savefig("bidLSTM: Loss vs # epochs on train.png")
-
-
-    plt.plot(epoch_list, val_loss_list)
-    plt.xlabel("# of epochs")
-    plt.ylabel("Loss")
-    plt.title("bidLSTM: Loss vs # epochs on val")
-    # plt.show()
-    plt.savefig("bidLSTM: Loss vs # epochs on val.png")
-
+    fig, ax = plt.subplots(1, 2)
+    ax1 = ax[0]
+    ax2 = ax[1]
+    ax1.plot(Epoch_list, tra_loss_list, label='train')
+    ax1.plot(epoch_list, val_loss_list, label='val')
+    ax1.set_xlabel("epochs")
+    ax1.set_ylabel("Loss")
+    ax1.set_title("bidLSTM: Loss")
     # visualization accuracy
-    plt.plot(Epoch_list, tra_accuracy_list, color="red")
-    plt.xlabel("# of epochs")
-    plt.ylabel("Accuracy")
-    plt.title("bidLSTM: Accuracy vs # epochs on train")
-    # plt.savefig('graph.png')
-    # plt.show()
-    plt.savefig("bidLSTM: Accuracy vs # epochs on train.png")
+    ax2.plot(epoch_list, val_accuracy_list, label='train')
+    ax2.plot(Epoch_list, tra_accuracy_list, label='val')
+    ax2.set_xlabel("epochs")
+    ax2.set_ylabel("Accuracy")
+    ax2.set_title("bidLSTM: Accuracy")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("bidResult")
 
-    plt.plot(epoch_list, val_accuracy_list, color="red")
-    plt.xlabel("# of epochs")
-    plt.ylabel("Accuracy")
-    plt.title("bidLSTM: Accuracy vs # epochs on val")
-    # plt.savefig('graph.png')
-    # plt.show()
-    plt.savefig("bidLSTM: Accuracy vs # epochs on val.png")
-    torch.save(model.state_dict(), "./weights/bidLSTM_model_parameter.pkl")
-
+    torch.save(model.state_dict(), "./weights/bidlstm_parameter.pkl")
 
 if __name__ == "__main__":
     main()
