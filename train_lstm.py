@@ -21,6 +21,15 @@ from myModule import LSTM
 
 
 def main():
+    train_on_gpu = torch.cuda.is_available()
+    if train_on_gpu:
+        print("\nTraining on GPU")
+    else:
+        print("\nNo GPU, training on CPU")
+
+    device = torch.device('cuda' if train_on_gpu else 'cpu')
+    if device.type == 'cuda':
+        print(torch.cuda.get_device_name(0))
     genre_features = GenreFeatureData()
 
     # if all of the preprocessed files do not exist, regenerate them all for self-consistency
@@ -36,12 +45,12 @@ def main():
         print("Preprocessing raw audio files")
         genre_features.load_preprocess_data()
 
-    train_X = torch.from_numpy(genre_features.train_X).type(torch.Tensor)
-    dev_X = torch.from_numpy(genre_features.dev_X).type(torch.Tensor)
+    train_X = torch.from_numpy(genre_features.train_X).type(torch.Tensor).to(device)
+    dev_X = torch.from_numpy(genre_features.dev_X).type(torch.Tensor).to(device)
 
     # Targets is a long tensor of size (N,) which tells the true class of the sample.
-    train_Y = torch.from_numpy(genre_features.train_Y).type(torch.LongTensor)
-    dev_Y = torch.from_numpy(genre_features.dev_Y).type(torch.LongTensor)
+    train_Y = torch.from_numpy(genre_features.train_Y).type(torch.LongTensor).to(device)
+    dev_Y = torch.from_numpy(genre_features.dev_Y).type(torch.LongTensor).to(device)
 
     # Convert {training, test} torch.Tensors
     print("Training X shape: " + str(genre_features.train_X.shape))
@@ -56,7 +65,7 @@ def main():
     print("Build LSTM RNN model ...")
     model = LSTM(
         input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=2
-    )
+    ).to(device)
     # state_dict = torch.load('./weights/model_parameter.pkl')
     # model.load_state_dict(state_dict)
 
@@ -68,16 +77,6 @@ def main():
 
     # To keep LSTM stateful between batches, you can set stateful = True, which is not suggested for training
     stateful = False
-
-    train_on_gpu = torch.cuda.is_available()
-    if train_on_gpu:
-        print("\nTraining on GPU")
-    else:
-        print("\nNo GPU, training on CPU")
-
-    device = torch.device('cuda' if train_on_gpu else 'cpu')
-    if device.type == 'cuda':
-        print(torch.cuda.get_device_name(0))
 
     # all training data (epoch) / batch_size == num_batches (12)
     num_batches = int(train_X.shape[0] / batch_size)
