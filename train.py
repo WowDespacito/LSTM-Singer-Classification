@@ -23,7 +23,7 @@ class LSTM(nn.Module):
         self.num_layers = num_layers
 
         # setup LSTM layer
-        self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers, bidirectional=True)
+        self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers, bidirectional=False)
 
         # setup output layer
         self.linear = nn.Linear(self.hidden_dim, output_dim)
@@ -34,8 +34,9 @@ class LSTM(nn.Module):
         # Note: lstm_out contains outputs for every step of the sequence we are looping over (for BPTT)
         # but we just need the output of the last step of the sequence, aka lstm_out[-1]
         x, hidden = self.lstm(input, hidden)
-        x = self.linear(x[-1])              # equivalent to return_sequences=False from Keras
-        x = self.dropout(x)
+        x = self.dropout(x[-1])
+        x = self.linear(x)              # equivalent to return_sequences=False from Keras
+
         output = F.log_softmax(x, dim=1)
         return output, hidden
 
@@ -80,7 +81,7 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 50  # num of training examples per minibatch
-    num_epochs = 800
+    num_epochs = 1000
 
     # Define model
     print("Build LSTM RNN model ...")
