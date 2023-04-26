@@ -210,7 +210,7 @@ def main():
     # plt.savefig('graph.png')
     # plt.show()
     plt.savefig("bidLSTM: Accuracy vs # epochs on val.png")
-    torch.save(model.state_dict(), "./weights/model_parameter.pkl")
+    torch.save(model.state_dict(), "./weights/bidLSTM_model_parameter.pkl")
 
 
 if __name__ == "__main__":
