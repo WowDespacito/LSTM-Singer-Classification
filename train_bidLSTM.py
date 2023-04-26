@@ -7,11 +7,18 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
 
 from GenreFeatureData import (
     GenreFeatureData,
 )  # local python class with Audio feature extraction (librosa)
-from myModule import bidLSTM
+from myModule import LSTM
+
+
+
+
+
+
 
 def main():
     genre_features = GenreFeatureData()
@@ -42,13 +49,13 @@ def main():
     print("Validation X shape: " + str(genre_features.dev_X.shape))
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
-    batch_size = 100  # num of training examples per minibatch
+    batch_size = 50  # num of training examples per minibatch
     num_epochs = 1000
 
     # Define model
     print("Build LSTM RNN model ...")
-    model = bidLSTM(
-        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2, bidirectional=True
+    model = LSTM(
+        input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=2
     )
     # state_dict = torch.load('./weights/model_parameter.pkl')
     # model.load_state_dict(state_dict)
