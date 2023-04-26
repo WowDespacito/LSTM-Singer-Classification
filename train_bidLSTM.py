@@ -52,7 +52,7 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 100  # num of training examples per minibatch
-    num_epochs = 1000
+    num_epochs = 2000
 
     # Define model
     print("Build LSTM RNN model ...")
