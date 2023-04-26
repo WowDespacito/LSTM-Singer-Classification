@@ -17,14 +17,14 @@ class GenreFeatureData:
         "XueZhiqian",
     ]
 
-    dir_trainfolder = "data/train_data"
-    dir_devfolder = "data/validation_data"
-    dir_all_files = "data"
+    dir_trainfolder = "../data/train_data"
+    dir_devfolder = "../data/validation_data"
+    dir_all_files = "../data"
 
-    train_X_preprocessed_data = "./data/data_train_input.npy"
-    train_Y_preprocessed_data = "./data/data_train_target.npy"
-    dev_X_preprocessed_data = "./data/data_validation_input.npy"
-    dev_Y_preprocessed_data = "./data/data_validation_target.npy"
+    train_X_preprocessed_data = "../data/data_train_input.npy"
+    train_Y_preprocessed_data = "../data/data_train_target.npy"
+    dev_X_preprocessed_data = "../data/data_validation_input.npy"
+    dev_Y_preprocessed_data = "../data/data_validation_target.npy"
 
     train_X = train_Y = None
     dev_X = dev_Y = None
