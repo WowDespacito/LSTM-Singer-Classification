@@ -187,8 +187,8 @@ def main():
     ax1.set_ylabel("Loss")
     ax1.set_title("bidLSTM: Loss")
     # visualization accuracy
-    ax2.plot(epoch_list, val_accuracy_list, label='train')
-    ax2.plot(Epoch_list, tra_accuracy_list, label='val')
+    ax2.plot(Epoch_list, tra_accuracy_list, label='train')
+    ax2.plot(epoch_list, val_accuracy_list, label='val')
     ax2.set_xlabel("epochs")
     ax2.set_ylabel("Accuracy")
     ax2.set_title("bidLSTM: Accuracy")

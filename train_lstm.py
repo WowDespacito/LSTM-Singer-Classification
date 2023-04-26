@@ -188,14 +188,14 @@ def main():
     fig, ax = plt.subplots(1, 2)
     ax1 = ax[0]
     ax2 = ax[1]
-    ax1.plot(Epoch_list, tra_loss_list, label='train')
     ax1.plot(epoch_list, val_loss_list, label='val')
+    ax1.plot(Epoch_list, tra_loss_list, label='train')
     ax1.set_xlabel("epochs")
     ax1.set_ylabel("Loss")
     ax1.set_title("LSTM: Loss")
     # visualization accuracy
-    ax2.plot(epoch_list, val_accuracy_list, label='train')
-    ax2.plot(Epoch_list, tra_accuracy_list, label='val')
+    ax2.plot(epoch_list, val_accuracy_list, label='val')
+    ax2.plot(Epoch_list, tra_accuracy_list, label='train')
     ax2.set_xlabel("epochs")
     ax2.set_ylabel("Accuracy")
     ax2.set_title("LSTM: Accuracy")
