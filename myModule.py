@@ -47,15 +47,17 @@ class bidLSTM(nn.Module):
 
         # setup LSTM layer
         self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers, bidirectional=self.bidirectional)
-        self.dropout = nn.Dropout()
+        self.dropout1 = nn.Dropout(0.5)
         # setup output layer
         self.linear = nn.Linear(2*self.hidden_dim, output_dim)
+        self.dropout2 = nn.Dropout(0.5)
 
 
     def forward(self, input, hidden=None):
         x, state = self.lstm(input, hidden)
-        x = self.dropout(x)
+        x = self.dropout1(x)
         x = self.linear(x[-1])
+        x = self.dropout2(x)
         output = F.log_softmax(x, dim=1)
         return output, hidden
 
