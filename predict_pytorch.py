@@ -1,6 +1,6 @@
 import sys
 import torch
-from lstm_genre_classifier_pytorch import LSTM
+from myModule import bidLSTM
 import librosa
 import numpy as np
 from GenreFeatureData import GenreFeatureData
@@ -46,9 +46,9 @@ def get_genre(model, music_path):
 
 if __name__ == '__main__':
     Path = sys.argv[1] if len(sys.argv) == 2 else "./audio/ZhouJieLun.mp3"
-    state_dict = torch.load('./result/0412_3/model_parameter.pkl')
-    MODEL = LSTM(
-        input_dim=33, hidden_dim=128, batch_size=35, output_dim=5, num_layers=2
+    state_dict = torch.load('./result/0427/bidlstm_parameter.pkl')
+    MODEL = bidLSTM(
+        input_dim=33, hidden_dim=256, batch_size=35, output_dim=5, num_layers=2, bidirectional=True
     )
     MODEL.load_state_dict(state_dict)
     result = get_genre(MODEL, Path)
