@@ -66,7 +66,7 @@ def main():
 
     loss_function = nn.NLLLoss()  # expects ouputs from LogSoftmax
 
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
     # To keep LSTM stateful between batches, you can set stateful = True, which is not suggested for training
     stateful = False

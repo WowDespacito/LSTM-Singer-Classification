@@ -201,7 +201,7 @@ def main():
     ax2.set_title("LSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    fig.savefig("bidResult")
+    fig.savefig("lstmResult")
 
 
 
