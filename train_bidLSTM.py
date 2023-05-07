@@ -59,8 +59,8 @@ def main():
     model = bidLSTM(
         input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2, bidirectional=True
     ).to(device)
-    # state_dict = torch.load('./weights/model_parameter.pkl')
-    # model.load_state_dict(state_dict)
+    state_dict = torch.load('./result/0501/bidlstm_parameter.pkl')
+    model.load_state_dict(state_dict)
 
 
 
