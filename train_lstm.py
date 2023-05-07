@@ -59,12 +59,12 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 100  # num of training examples per minibatch
-    num_epochs = 1000
+    num_epochs = 2000
 
     # Define model
     print("Build LSTM RNN model ...")
     model = LSTM(
-        input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=2
+        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2
     ).to(device)
     # state_dict = torch.load('./weights/model_parameter.pkl')
     # model.load_state_dict(state_dict)
@@ -201,7 +201,7 @@ def main():
     ax2.set_title("LSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    fig.savefig("lstmResult")
+    fig.savefig("lstmResult", dpi=200)
 
 
 

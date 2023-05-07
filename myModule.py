@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from torch.functional import F
 
+
 # class definition
 class LSTM(nn.Module):
     def __init__(self, input_dim, hidden_dim, batch_size, output_dim=5, num_layers=2):
@@ -16,15 +17,17 @@ class LSTM(nn.Module):
 
         # setup output layer
         self.linear = nn.Linear(self.hidden_dim, output_dim)
-        self.dropout = nn.Dropout()
+        self.dropout1 = nn.Dropout(0.5)
+        self.dropout2 = nn.Dropout(0.5)
 
     def forward(self, input, hidden=None):
         # lstm step => then ONLY take the sequence's final timetep to pass into the linear/dense layer
         # Note: lstm_out contains outputs for every step of the sequence we are looping over (for BPTT)
         # but we just need the output of the last step of the sequence, aka lstm_out[-1]
         x, state = self.lstm(input, hidden)
-        x = self.dropout(x[-1])
-        x = self.linear(x)              # equivalent to return_sequences=False from Keras
+        x = self.dropout1(x[-1])
+        x = self.linear(x)  # equivalent to return_sequences=False from Keras
+        x = self.dropout2(x)
 
         output = F.log_softmax(x, dim=1)
         return output, hidden
@@ -36,8 +39,10 @@ class LSTM(nn.Module):
         ).sum()
         accuracy = 100.0 * corrects / self.batch_size
         return accuracy.item()
+
+
 class bidLSTM(nn.Module):
-    def __init__(self, input_dim, hidden_dim, batch_size, output_dim=5, num_layers=2, bidirectional = True):
+    def __init__(self, input_dim, hidden_dim, batch_size, output_dim=5, num_layers=2, bidirectional=True):
         super(bidLSTM, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
@@ -49,9 +54,8 @@ class bidLSTM(nn.Module):
         self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers, bidirectional=self.bidirectional)
         self.dropout1 = nn.Dropout(0.5)
         # setup output layer
-        self.linear = nn.Linear(2*self.hidden_dim, output_dim)
+        self.linear = nn.Linear(2 * self.hidden_dim, output_dim)
         self.dropout2 = nn.Dropout(0.5)
-
 
     def forward(self, input, hidden=None):
         x, state = self.lstm(input, hidden)

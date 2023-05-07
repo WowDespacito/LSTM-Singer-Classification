@@ -51,8 +51,8 @@ def main():
     print("Validation X shape: " + str(genre_features.dev_X.shape))
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
-    batch_size = 100  # num of training examples per minibatch
-    num_epochs = 1000
+    batch_size = 35  # num of training examples per minibatch
+    num_epochs = 2000
 
     # Define model
     print("Build LSTM RNN model ...")
@@ -66,7 +66,8 @@ def main():
 
     loss_function = nn.NLLLoss()  # expects ouputs from LogSoftmax
 
-    optimizer = optim.Adam(model.parameters(), lr=0.0001)
+    optimizer = optim.Adam(model.parameters(), lr=0.00005)
+   # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.1)
 
     # To keep LSTM stateful between batches, you can set stateful = True, which is not suggested for training
     stateful = False
@@ -119,6 +120,7 @@ def main():
             loss = loss_function(y_pred, y_local_minibatch)  # compute loss
             loss.backward()  # backward pass
             optimizer.step()  # parameter update
+          #  scheduler.step()
 
             train_running_loss += loss.detach().item()  # unpacks the tensor into a scalar value
             train_acc += model.get_accuracy(y_pred, y_local_minibatch)
@@ -194,7 +196,7 @@ def main():
     ax2.set_title("bidLSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("bidResult")
+    plt.savefig("bidResult", dpi=200)
 
     torch.save(model.state_dict(), "./weights/bidlstm_parameter.pkl")
 
