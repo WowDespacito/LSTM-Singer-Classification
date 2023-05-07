@@ -7,11 +7,18 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
 
 from GenreFeatureData import (
     GenreFeatureData,
 )  # local python class with Audio feature extraction (librosa)
-from myModule import bidLSTM
+from myModule import LSTM
+
+
+
+
+
+
 
 def main():
     train_on_gpu = torch.cuda.is_available()
@@ -51,23 +58,22 @@ def main():
     print("Validation X shape: " + str(genre_features.dev_X.shape))
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
-    batch_size = 35  # num of training examples per minibatch
+    batch_size = 100  # num of training examples per minibatch
     num_epochs = 2000
 
     # Define model
     print("Build LSTM RNN model ...")
-    model = bidLSTM(
-        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2, bidirectional=True
+    model = LSTM(
+        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2
     ).to(device)
-    # state_dict = torch.load('./result/0501/bidlstm_parameter.pkl')
+    # state_dict = torch.load('./weights/model_parameter.pkl')
     # model.load_state_dict(state_dict)
 
 
 
     loss_function = nn.NLLLoss()  # expects ouputs from LogSoftmax
 
-    optimizer = optim.Adam(model.parameters(), lr=0.00005)
-   # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.1)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     # To keep LSTM stateful between batches, you can set stateful = True, which is not suggested for training
     stateful = False
@@ -120,7 +126,6 @@ def main():
             loss = loss_function(y_pred, y_local_minibatch)  # compute loss
             loss.backward()  # backward pass
             optimizer.step()  # parameter update
-          #  scheduler.step()
 
             train_running_loss += loss.detach().item()  # unpacks the tensor into a scalar value
             train_acc += model.get_accuracy(y_pred, y_local_minibatch)
@@ -183,22 +188,25 @@ def main():
     fig, ax = plt.subplots(1, 2)
     ax1 = ax[0]
     ax2 = ax[1]
-    ax1.plot(Epoch_list, tra_loss_list, label='train')
     ax1.plot(epoch_list, val_loss_list, label='val')
+    ax1.plot(Epoch_list, tra_loss_list, label='train')
     ax1.set_xlabel("epochs")
     ax1.set_ylabel("Loss")
-    ax1.set_title("bidLSTM: Loss")
+    ax1.set_title("LSTM: Loss")
     # visualization accuracy
-    ax2.plot(Epoch_list, tra_accuracy_list, label='train')
     ax2.plot(epoch_list, val_accuracy_list, label='val')
+    ax2.plot(Epoch_list, tra_accuracy_list, label='train')
     ax2.set_xlabel("epochs")
     ax2.set_ylabel("Accuracy")
-    ax2.set_title("bidLSTM: Accuracy")
+    ax2.set_title("LSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("bidResult", dpi=200)
+    fig.savefig("lstmResult", dpi=200)
 
-    torch.save(model.state_dict(), "./weights/bidlstm_parameter.pkl")
+
+
+    torch.save(model.state_dict(), "./weights/lstm_parameter.pkl")
+
 
 if __name__ == "__main__":
     main()
