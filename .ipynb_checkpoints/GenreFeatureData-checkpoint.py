@@ -106,7 +106,9 @@ class GenreFeatureData:
             )
 
             splits = re.split("[ .]", file)
-            genre = re.split("[/]", splits[2])[2]
+            genre = re.split("[/]", splits[2])[3]
+            # print(re.split("[/]", splits[2]))
+            # print(genre)
             target.append(genre)
 
             data[i, :, 0:13] = mfcc.T[0:self.timeseries_length, :]
