@@ -1,0 +1,2 @@
+一层dropout 0.5 lstm->dropout->Fnn
+20000轮训练

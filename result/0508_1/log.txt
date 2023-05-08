@@ -1,0 +1,2 @@
+2000轮训练
+单层dropout 0.5 2*bidlstm->FNN->dropout

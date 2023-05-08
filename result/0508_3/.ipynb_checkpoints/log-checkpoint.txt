@@ -1,0 +1,2 @@
+单层bidlstm
+一层dropout bidlstm->dropout(0.2)->fnn
