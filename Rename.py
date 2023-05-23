@@ -11,7 +11,7 @@ def RenameFile(path, index:str):
 
 if __name__ == '__main__':
     file_list = []
-    for root, dirs, files in os.walk('data'):
+    for root, dirs, files in os.walk('../data'):
         for file in files:
             file_list.append(root+'/'+ file)
     i = 0
