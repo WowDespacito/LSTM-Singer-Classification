@@ -64,7 +64,7 @@ def main():
     # Define model
     print("Build LSTM RNN model ...")
     model = LSTM(
-        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=2
+        input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=2
     ).to(device)
     # state_dict = torch.load('./weights/model_parameter.pkl')
     # model.load_state_dict(state_dict)
