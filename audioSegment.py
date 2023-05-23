@@ -17,7 +17,7 @@ def audioSegment(path, size, exFormat="mp3"):
     chunks = make_chunks(audio, size)
     for i, chunk in enumerate(chunks):
         chunk_name = name + "_{0}.".format(i) + exFormat
-        dir = os.path.dirname("../../data/") + "/" + os.path.basename(os.path.dirname(path))
+        dir = os.path.dirname("../../data_duty/") + "/" + os.path.basename(os.path.dirname(path))
         if not os.path.exists(dir):
             os.makedirs(dir)
         chunk.export(dir + '/' + chunk_name, format=exFormat)
