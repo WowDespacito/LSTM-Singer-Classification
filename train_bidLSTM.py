@@ -52,12 +52,12 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 35  # num of training examples per minibatch
-    num_epochs = 2000
+    num_epochs = 4000
 
     # Define model
     print("Build LSTM RNN model ...")
     model = bidLSTM(
-        input_dim=33, hidden_dim=256, batch_size=batch_size, output_dim=5, num_layers=1, bidirectional=True
+        input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=1, bidirectional=True
     ).to(device)
     # state_dict = torch.load('./result/0501/bidlstm_parameter.pkl')
     # model.load_state_dict(state_dict)

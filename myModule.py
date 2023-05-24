@@ -63,11 +63,11 @@ class bidLSTM(nn.Module):
 
     def forward(self, input, hidden=None):
         x, state = self.lstm(input, hidden)
-        print(x.shape)
+        # print(x.shape)
         x = self.dropout1(x)
-        print(x.shape)
+        # print(x.shape)
         x = self.linear(x[-1])
-        print(x.shape)
+        # print(x.shape)
         # x = self.dropout2(x)
         output = F.log_softmax(x, dim=1)
         return output, hidden

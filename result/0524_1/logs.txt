@@ -1,0 +1,2 @@
+biLSTM->dropout(0.2)->FNN
+3000

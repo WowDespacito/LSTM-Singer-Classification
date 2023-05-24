@@ -107,6 +107,7 @@ class GenreFeatureData:
 
             splits = re.split("[ .]", file)
             genre = re.split("[/]", splits[2])[3]
+            # print(splits)
             # print(re.split("[/]", splits[2]))
             # print(genre)
             target.append(genre)
