@@ -1,0 +1,3 @@
+双层lstm
+2000轮
+一层dropout
