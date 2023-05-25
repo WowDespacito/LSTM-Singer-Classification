@@ -25,13 +25,13 @@ class LSTM(nn.Module):
         # Note: lstm_out contains outputs for every step of the sequence we are looping over (for BPTT)
         # but we just need the output of the last step of the sequence, aka lstm_out[-1]
         x, state = self.lstm(input, hidden)
-        print(x.shape)
+        # print(x.shape)
         x = self.dropout1(x[-1])
-        print(x.shape)
+        # print(x.shape)
         x = self.linear(x)  # equivalent to return_sequences=False from Keras
-        print(x.shape)
-        x = self.dropout2(x)
-        print(x.shape)
+        # print(x.shape)
+        # x = self.dropout2(x)
+        # print(x.shape)
 
         output = F.log_softmax(x, dim=1)
         return output, hidden
