@@ -51,7 +51,7 @@ def main():
     print("Validation X shape: " + str(genre_features.dev_X.shape))
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
-    batch_size = 35  # num of training examples per minibatch
+    batch_size = 50  # num of training examples per minibatch
     num_epochs = 4000
 
     # Define model
@@ -66,7 +66,7 @@ def main():
 
     loss_function = nn.NLLLoss()  # expects ouputs from LogSoftmax
 
-    optimizer = optim.Adam(model.parameters(), lr=0.00005)
+    optimizer = optim.Adam(model.parameters(), lr=0.0005)
    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.1)
 
     # To keep LSTM stateful between batches, you can set stateful = True, which is not suggested for training
@@ -129,9 +129,10 @@ def main():
             "Epoch:  %d | NLLoss: %.4f | Train Accuracy: %.2f"
             % (epoch, train_running_loss / num_batches, train_acc / num_batches)
         )
-        Epoch_list.append(epoch)
-        tra_loss_list.append(train_running_loss / num_batches)
-        tra_accuracy_list.append(train_acc / num_batches)
+        if epoch % 5 == 0:
+            Epoch_list.append(epoch)
+            tra_loss_list.append(train_running_loss / num_batches)
+            tra_accuracy_list.append(train_acc / num_batches)
         if epoch % 10 == 0:
             print("Validation ...")  # should this be done every N=10 epochs
             val_running_loss, val_acc = 0.0, 0.0
@@ -180,7 +181,7 @@ def main():
             val_loss_list.append(val_running_loss / num_dev_batches)
 
     # visualization loss
-    fig, ax = plt.subplots(1, 2)
+    fig, ax = plt.subplots(2, 1)
     ax1 = ax[0]
     ax2 = ax[1]
     ax1.plot(Epoch_list, tra_loss_list, label='train')
@@ -196,7 +197,7 @@ def main():
     ax2.set_title("bidLSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("bidResult", dpi=200)
+    plt.savefig("bidResult", dpi=400)
 
     torch.save(model.state_dict(), "./weights/bidlstm_parameter.pkl")
 

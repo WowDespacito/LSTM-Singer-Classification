@@ -11,7 +11,7 @@ import torch.optim as optim
 from GenreFeatureData import (
     GenreFeatureData,
 )  # local python class with Audio feature extraction (librosa)
-from myModule import bidLSTM
+from myModule import Att_bidLSTM
 
 def main():
     train_on_gpu = torch.cuda.is_available()
@@ -52,12 +52,12 @@ def main():
     print("Validation Y shape: " + str(genre_features.dev_Y.shape))
 
     batch_size = 50  # num of training examples per minibatch
-    num_epochs = 4000
+    num_epochs = 1000
 
     # Define model
     print("Build LSTM RNN model ...")
-    model = bidLSTM(
-        input_dim=33, hidden_dim=128, batch_size=batch_size, output_dim=5, num_layers=1, bidirectional=True
+    model = Att_bidLSTM(
+        input_dim=33, hidden_dim=96, batch_size=batch_size, output_dim=5, num_layers=1, bidirectional=True
     ).to(device)
     # state_dict = torch.load('./result/0501/bidlstm_parameter.pkl')
     # model.load_state_dict(state_dict)
@@ -188,18 +188,18 @@ def main():
     ax1.plot(epoch_list, val_loss_list, label='val')
     ax1.set_xlabel("epochs")
     ax1.set_ylabel("Loss")
-    ax1.set_title("bidLSTM: Loss")
+    ax1.set_title("AttBiLSTM: Loss")
     # visualization accuracy
     ax2.plot(Epoch_list, tra_accuracy_list, label='train')
     ax2.plot(epoch_list, val_accuracy_list, label='val')
     ax2.set_xlabel("epochs")
     ax2.set_ylabel("Accuracy")
-    ax2.set_title("bidLSTM: Accuracy")
+    ax2.set_title("AttBiLSTM: Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("bidResult", dpi=400)
+    plt.savefig("AttBiResult", dpi=400)
 
-    torch.save(model.state_dict(), "./weights/bidlstm_parameter.pkl")
+    torch.save(model.state_dict(), "./AttBilstm_parameter.pkl")
 
 if __name__ == "__main__":
     main()

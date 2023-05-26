@@ -1,0 +1,2 @@
+单层bilstm 128
+单层dropout 0.2

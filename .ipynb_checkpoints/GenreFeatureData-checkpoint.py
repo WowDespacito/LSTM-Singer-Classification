@@ -7,7 +7,6 @@ import numpy as np
 
 
 class GenreFeatureData:
-    "Music audio Singer for classification"
     hop_length = None
     genre_list = [
         "ZhouJielun",
